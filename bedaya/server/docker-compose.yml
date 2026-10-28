@@ -1,0 +1,23 @@
+# خادم بداية ريموت (ID + Relay) المبني على rustdesk-server
+# التشغيل: docker compose up -d
+# المفتاح العام بعد أول تشغيل: cat ./data/id_ed25519.pub
+services:
+  hbbs:
+    container_name: bedaya-hbbs
+    image: rustdesk/rustdesk-server:latest
+    command: hbbs -k _
+    volumes:
+      - ./data:/root
+    network_mode: host
+    depends_on:
+      - hbbr
+    restart: unless-stopped
+
+  hbbr:
+    container_name: bedaya-hbbr
+    image: rustdesk/rustdesk-server:latest
+    command: hbbr -k _
+    volumes:
+      - ./data:/root
+    network_mode: host
+    restart: unless-stopped
